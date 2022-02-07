@@ -1,33 +1,35 @@
 // Display today's day and date 
-var todayDate = moment().format("dddd, MMM DDo YYYY");
+var todayDate = moment().format("dddd, MMM DD YYYY");
+console.log(todayDate);
 $("#currentDay").append(todayDate);
 
 // area of planer background
- var timeOfday = ["8","9","10","11","12","13","14","15","16","17"]
-
+ var timeOfday = ["8","9","10","11","12","13","14","15","16","17","18","19", "20"];
+ 
 
 function pastPresentFuture () {
-    var currentTime = moment().format("hour");
+    var currentTime = moment().format("H");
     for(var i=0;i< timeOfday.length; i++){
-    
-        if(parseInt(timeOfday[i]) > currentTime){
-            $("#" + timeOfday[i]).classList.add('future');
+        console.log(currentTime);
+        if(parseInt(timeOfday[i]) > parseInt(currentTime)){
+            $("#" + timeOfday[i]).addClass('future');
         }
-        else if (parseInt(timeOfday[i] < currentTime)) {
-            $("#" + timeOfday[i]).classList.add("past");
+        else if (parseInt(timeOfday[i]) < parseInt(currentTime)) {
+            $("#" + timeOfday[i]).addClass("past");
         }
-        else if (parseInt(timeOfday[i]) === currentTime) {
-            $("#" + timeOfday[i]).classList.add("present")
+        else if (parseInt(timeOfday[i]) === parseInt(currentTime)) {
+            $("#" + timeOfday[i]).addClass("present")
         }
         
     }
 }
 pastPresentFuture();
-setInterval(pastPresentFuture,10000);
+setInterval(pastPresentFuture,60000);
 
 // onclick event to save input to local storage
-$(".saveBtn").on("click", function(){
-    var timeOfday = $(this).parent().attr("id");
+$(".saveBtn").on("click", function(event){
+    event.preventDefault();
+    var timeOfday = $(this).silbling(".description").children(".future").attr("id");
     var textContent = $("input").val().trim();
 
     localStorage.setItem(timeOfday,textContent);
